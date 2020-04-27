@@ -1,16 +1,4 @@
-# How to Run This Lab
-
-## Lab environment
-
-Use credential `ibmuser/passw0rd` to login the lab envirnoment, then double click the Terminal icon on desktop
-to open a terminal. You can maximize the terminal window to get better visualization experience.
-
-In the terminal, go into the lab root directory and update the lab content to the latest version:
-
-```
-cd $HOME/lab-cp4mcm
-git pull
-```
+# How to Run This Tool
 
 ## Run lab task and step
 
@@ -76,8 +64,8 @@ By default, tasks or steps will run interactively, which means it will stop at e
 instructions line by line, run specific commands, then check results carefully. To move to the next step, you
 can press ENTER key.
 
-Most tasks or steps can be run repeatedly. As a result, if you want to revisit those tasks or steps to better
-understand them, you can run them many times.
+If tasks or steps can be run repeatedly and you want to revisit those tasks or steps to better understand them
+, you can run them many times.
 
 On the other hand, you can also run tasks or steps automatically when needed. This is useful if you have gone
 through the task or step content already and just want to rerun it to apply whatever changes made by the task
