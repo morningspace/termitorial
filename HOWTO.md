@@ -1,5 +1,28 @@
 # How to Run This Tool
 
+## Define your lab profile
+
+A lab may be used by multiple people simultaneously. Each person has his or her own lab config which can be
+found at $HOME/.labs-magic directory by running below command:
+
+```
+ls -1 ~/.labs-magic/*.config
+/home/morningspace/.labs-magic/alice.config
+/home/morningspace/.labs-magic/bob.config
+/home/morningspace/.labs-magic/default.config
+```
+
+To avoid conflict with other people's lab config, please define your own by specifying an environment variable 
+called $LAB_PROFILE. e.g. morningspace, then you will see a new config file called morningspace.config created
+under $HOME/.labs-magic directory when you launch the lab for the next time.
+
+```
+export LAB_PROFILE=morningspace
+```
+
+Note: When you define $LAB_PROFILE, please check $HOME/.labs-magic directory first, to make sure the value you
+choose is not used by others
+
 ## Run lab task and step
 
 You can run different commands to launch the lab as needed. For example, To view the lab main page:
@@ -29,34 +52,23 @@ To list all available tasks and steps with their states, titles and ids:
 ./lab.sh -l
 ```
 
+Here is a sample output:
+
+```
+[✓] Task 1 - Step 1: Install required software [task1 step1]
+[?] Task 1 - Step 2: Wait for system up and running [task1 step2]
+
+[✓] Task 2 - Step 1: Configure application [task2 step1]
+ ➞  Task 2 - Step 2: Launch application [task2 step2]
+[ ] Task 2 - Step 3: Clean up [task2 step3]
+```
+
 By checking the list, you will be able to know:
 
-* Which is the current step being processed? (marked as '➞')
-* Which tasks and steps are completed (marked as '✓')
-* Which tasks and steps are stopped unexpectedly for some reason (marked as '?')
-* Which tasks and steps are not processed yet. (marked as ' ')
-
-## Print lab config
-
-The lab environment has a config file including all required settings that will be used during the launch.
-
-To print the lab config:
-
-```
-./lab.sh -c
-```
-
-The same lab environment cab be run by multiple people simultaneously and each person has his or her own lab 
-config. This is controlled by an environment variable called $LAB_PROFILE, e.g.:
-
-```
-export LAB_PROFILE=alice
-./lab.sh -c
-export LAB_PROFILE=bob
-./lab.sh -c
-```
-
-The lab config output for bob will be different from that for alice.
+* The current step that you are working on (marked with '[➞]')
+* The tasks and steps that are completed (marked with '[✓]')
+* The tasks and steps that are stopped unexpectedly for some reason (marked with '[?]')
+* The tasks and steps that are not started yet. (marked with '[ ]')
 
 ## Run interactively or automatically
 
