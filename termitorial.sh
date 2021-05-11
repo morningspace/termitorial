@@ -29,6 +29,7 @@
 # Load demo magic
 ########################
 
+# hack to avoid demo magic exiting too early
 function getopts {
   return 1
 }
@@ -116,23 +117,38 @@ function tutorial::launch {
   local file
   for file in `ls $TT_DIR/*.sh 2>/dev/null`; do . $file; done
 
-  # launch one or more lessons
-  local lesson=$1
-  if [[ -f $TT_DIR/$lesson.md ]]; then
-    # launch lesson using path to file
-    tutorial::launch-lesson $lesson
-  elif [[ -d $TT_DIR/$lesson ]]; then
-    # launch tutorial and lessons using path to directory
-    local files=($(find $TT_DIR/$lesson -name "*.md" -type f | sort))
-    for file in ${files[@]}; do
-      lesson=${file#"$TT_DIR/"}
-      lesson=${lesson%".md"}
-      tutorial::launch-lesson $lesson
-    done
+  local tutorial_setup="tutorial::setup"
+  local tutorial_teardown="tutorial::teardown"
+  local ret=0
+
+  # call tutorial setup method
+  if type $tutorial_setup &>/dev/null && ! $tutorial_setup; then
+    log::error "The tutorial $1 cannot start."
+    ret=1
   else
-    log::error "The specified tutorial '$1' can not be found."
-    exit 1
+    # launch one or more lessons
+    local lesson=$1
+    if [[ -f $TT_DIR/$lesson.md ]]; then
+      # launch lesson using path to file
+      tutorial::launch-lesson $lesson
+    elif [[ -d $TT_DIR/$lesson ]]; then
+      # launch tutorial and lessons using path to directory
+      local files=($(find $TT_DIR/$lesson -name "*.md" -type f | sort))
+      for file in ${files[@]}; do
+        lesson=${file#"$TT_DIR/"}
+        lesson=${lesson%".md"}
+        tutorial::launch-lesson $lesson
+      done
+    else
+      log::error "The tutorial '$1' can not be found."
+      ret=1
+    fi
   fi
+
+  # call tutorial teardown method
+  type $tutorial_teardown &>/dev/null && ! $tutorial_teardown
+
+  return $ret
 }
 
 function tutorial::launch-lesson {
@@ -153,15 +169,31 @@ function tutorial::launch-lesson {
     echo "* $file" >> $TT_PROGRESS_FILE
   fi
 
-  # start to parse lesson file
-  if tutorial::parse-file $file; then
+  local lesson_setup="tutorial::${lesson/\//_}_setup"
+  local lesson_teardown="tutorial::${lesson/\//_}_teardown"
+  local ret=0
+
+  # call lesson setup method
+  if type $lesson_setup &>/dev/null && ! $lesson_setup; then
+    ret=1
+  else
+    # start to parse lesson file
+    tutorial::parse-file $file
+    ret=$?
+  fi
+
+  # call lesson teardown method
+  type $lesson_teardown &>/dev/null && $lesson_teardown
+
+  if [[ $ret == 0 ]]; then
     # mark the current lesson as finished
     sed -e "s#^* $file#v $file#g" $TT_PROGRESS_FILE > $TT_PROGRESS_FILE.tmp
     mv $TT_PROGRESS_FILE{.tmp,}
   else
     log::error "The lesson '$lesson' cannot continue."
-    exit 1
   fi
+
+  return $ret
 }
 
 function tutorial::parse-file {
@@ -346,7 +378,7 @@ function var::store {
 }
 
 function tutorial::list {
-  local files=($(find $TT_DIR/$lesson -name "*.md" -type f | sort))
+  local files=($(find $TT_DIR -name "*.md" -type f | sort))
   local file
   local line
   local state
