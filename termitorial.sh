@@ -88,6 +88,14 @@ TT_COLOR_RESET="\033[0m"
 TT_INCLUDE_CMD='.*'
 TT_EXCLUDE_CMD=
 
+trap on_exit exit
+
+function on_exit {
+  # call tutorial teardown method
+  local tutorial_teardown="tutorial::teardown"
+  type $tutorial_teardown &>/dev/null && ! $tutorial_teardown
+}
+
 function log::info {
   # Cyan
   printf "${TT_COLOR_POINTER}➜ \033[0;36mINFO ${TT_COLOR_RESET}$@\n"
@@ -109,7 +117,6 @@ function tutorial::launch {
   for file in `ls $TT_DIR/*.sh 2>/dev/null`; do . $file; done
 
   local tutorial_setup="tutorial::setup"
-  local tutorial_teardown="tutorial::teardown"
   local ret=0
 
   # call tutorial setup method
@@ -135,9 +142,6 @@ function tutorial::launch {
       ret=1
     fi
   fi
-
-  # call tutorial teardown method
-  type $tutorial_teardown &>/dev/null && ! $tutorial_teardown
 
   return $ret
 }
