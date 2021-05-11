@@ -60,8 +60,6 @@ DEMO_COMMENT_COLOR="\033[0;32m"
 # Start termitorial
 ########################
 
-TT_START_TIME=$SECONDS
-
 #
 # directory and files settings
 #
@@ -89,13 +87,6 @@ TT_COLOR_RESET="\033[0m"
 #
 TT_INCLUDE_CMD='.*'
 TT_EXCLUDE_CMD=
-
-trap on_exit exit
-
-function on_exit {
-  elapsed_time=$(($SECONDS - $TT_START_TIME))
-  log::info "Total elapsed time: $elapsed_time seconds"
-}
 
 function log::info {
   # Cyan
@@ -169,8 +160,8 @@ function tutorial::launch-lesson {
     echo "* $file" >> $TT_PROGRESS_FILE
   fi
 
-  local lesson_setup="tutorial::${lesson/\//_}_setup"
-  local lesson_teardown="tutorial::${lesson/\//_}_teardown"
+  local lesson_setup="tutorial::${lesson/\//-}-setup"
+  local lesson_teardown="tutorial::${lesson/\//-}-teardown"
   local ret=0
 
   # call lesson setup method
