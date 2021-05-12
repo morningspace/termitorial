@@ -10,7 +10,7 @@ To list all lessons that are included in a tutorial. You can use `-l` option whe
 ./termitorial.sh -l
 ```
 
-As an example, for TermiTorial Tutorial, you will see something similar as below:
+As an example, for The TermiTorial Tutorial, you will see something similar as below:
 ```
 [✓] README
 [✓] features/basics
