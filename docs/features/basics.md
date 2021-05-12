@@ -42,7 +42,7 @@ Public
 ## Run custom shell function
 
 You can also define your own shell function which can be invoked in shell code block. As an example, please
-refer to [help.sh](help.sh) where it includes a custom shell function as below:
+refer to [help.sh](../help.sh) where it includes a custom shell function as below:
 ```shell
 sum 2 3
 ```
