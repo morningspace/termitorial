@@ -315,7 +315,7 @@ function quit {
 
 function lesson-file {
   local lesson=$TT_DIR/$1
-  [[ ! $lesson =~ .md$ ]] && lesson=$1.md
+  [[ ! $lesson =~ .md$ ]] && lesson=$lesson.md
   echo $lesson
 }
 
