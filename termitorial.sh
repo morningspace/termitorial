@@ -213,15 +213,18 @@ function tutorial::parse-file {
     elif [[ $line =~ ^\`\`\` ]]; then
       [[ $category =~ code* ]] && category='' || category='code'
       continue
-    elif [[ $line =~ ^\<!-- && ! $category =~ code* ]]; then
-      category='code-invisible'
+    elif [[ $line =~ ^\<!--shell && ! $category =~ code* ]]; then
+      category='code-hidden'
       continue
-    elif [[ $line =~ --\>$ && $category == code-invisible ]]; then
+    elif [[ $line =~ ^\<!-- && ! $category =~ code* ]]; then
+      category='text-hidden'
+      continue
+    elif [[ $line =~ --\>$ && $category =~ /*hidden ]]; then
       category=
       continue
-    elif [[ -n $line && ! $category =~ code* ]]; then
+    elif [[ -n $line && ! $category =~ code* && ! $category =~ /*hidden ]]; then
       category='text'
-    elif [[ -z $line ]]; then
+    elif [[ -z $line && ! $category =~ /*hidden ]]; then
       category='newline'
     fi
 
@@ -253,9 +256,12 @@ function tutorial::parse-file {
       # print and execute shell command
       pe "$line"
       ;;
-    code-invisible)
+    code-hidden)
       # execute shell command
       eval "$line" || return $?
+      ;;
+    text-hidden)
+      # ignore hidden text
       ;;
     newline)
       # print new line
