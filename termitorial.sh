@@ -34,7 +34,19 @@ function getopts {
   return 1
 }
 
-TT_SCRIPT_DIR=`dirname $0`
+find_home() {
+  local script=$0
+  local script_home
+  while [ -h "$script" ]; do
+    script_home="$( cd -P "$( dirname "$script" )" >/dev/null 2>&1 && pwd )"
+    script="$(readlink "$script")"
+    [[ $script != /* ]] && script="$script_home/$script"
+  done
+  script_home="$( cd -P "$( dirname "$script" )" >/dev/null 2>&1 && pwd )"
+  echo $script_home
+}
+
+TT_SCRIPT_DIR=`find_home`
 . $TT_SCRIPT_DIR/demo-magic.sh
 
 ########################
@@ -288,8 +300,8 @@ function pi {
 }
 
 function eval {
-  if [[ -z $1 || ( $1 =~ $TT_INCLUDE_CMD && ! $1 =~ $TT_EXCLUDE_CMD ) ]]; then
-    command eval $@
+  if [[ -z $1 || $1 =~ $TT_INCLUDE_CMD ]]; then
+    [[ -z $TT_EXCLUDE_CMD || ( -n $TT_EXCLUDE_CMD && ! $1 =~ $TT_EXCLUDE_CMD ) ]] && command eval $@
   else
     DEMO_CMD_COLOR=$TT_COLOR_RESET pi "command not found: $1"
   fi
