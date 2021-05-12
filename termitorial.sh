@@ -126,7 +126,7 @@ function tutorial::launch {
   else
     # launch one or more lessons
     local lesson=$1
-    if [[ -f $TT_DIR/$lesson.md ]]; then
+    if [[ -f $(lesson-file $lesson) ]]; then
       # launch lesson using path to file
       tutorial::launch-lesson $lesson
     elif [[ -d $TT_DIR/$lesson ]]; then
@@ -153,7 +153,7 @@ function tutorial::launch-lesson {
 
   # mark the current lesson as active
   local lesson=$1
-  local file=$TT_DIR/$1.md
+  local file=$(lesson-file $lesson)
   if cat $TT_PROGRESS_FILE | grep -q -e "^.\? $file"; then
     sed -e "s#^? $file#* $file#g" \
         -e "s#^v $file#* $file#g" \
@@ -301,6 +301,12 @@ function quit {
   TT_EXCLUDE_CMD=
 }
 
+function lesson-file {
+  local lesson=$TT_DIR/$1
+  [[ ! $lesson =~ .md$ ]] && lesson=$1.md
+  echo $lesson
+}
+
 function tutorial::exec {
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -332,7 +338,7 @@ function tutorial::exec {
 function tutorial::depends {
   local lesson
   for lesson in $@; do
-    local file="$TT_DIR/$lesson.md"
+    local file=$(lesson-file $lesson)
     if ! cat $TT_PROGRESS_FILE | grep -q -e "^v $file"; then
       log::error "The prerequisite lesson '$lesson' needs to be finished at first."
       return 1
