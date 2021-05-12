@@ -21,8 +21,8 @@ and `echo`.
 tutorial::exec --include 'ls|cat|echo'
 -->
 
-Using `--exclude 'exit|cd'` to disallow user not to run `cd` to change directory, nor `exit` to
-exit the tutorial.
+Using `--exclude 'exit|cd'` to disallow user who runs `cd` to change directory, or `exit` to exit
+the tutorial.
 
 <!--shell
 tutorial::exec --exclude 'cd|exit'

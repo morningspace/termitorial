@@ -1,6 +1,6 @@
 # TermiTorial
 
-TermiTorial, the abbreviation form of Terminal Tutorial, is a script that allows you to organize your tutorial in multiple lessons using a hierarchical structure where each lesson is written in a separate Markdown file. Then, run through it interactively in a terminal. It is driven by [demo-magic](https://github.com/paxtonhare/demo-magic) under the hood.
+TermiTorial, the abbreviation form of Terminal Tutorial, is a script that allows you to organize your tutorial as multiple lessons using a hierarchical structure where each lesson is written as a Markdown file. The tutorial can not only be viewed as online documents, but also can be run interactively in a terminal. TermiTorial is driven by [demo-magic](https://github.com/paxtonhare/demo-magic) under the hood.
 
 To learn more on the use of TermiTorial, please check [The TermiTorial Tutorial: Make Markdown Executable](docs/README.md).
 
@@ -46,4 +46,8 @@ termitorial -l
 
 [The TermiTorial Tutorial: Make Markdown Executable](docs/README.md) is a tutorial that can walk you through all features provided by TermiTorial. It is organized using a hierarchical structure with a set of Markdown files which can be viewed online, meanwhile can be launced from the command line by TermiTorial itself.
 
-You can go into the tutorial root directory `docs`, then launch the tutorial using TermiTorial. To learn TermiTorial by TermiTorial itself. Hope you enjoy it!
+You can go into the tutorial root directory `docs`, then launch the tutorial using TermiTorial.
+
+> To learn TermiTorial by TermiTorial itself.
+
+Hope you enjoy it!

@@ -9,7 +9,7 @@ Let's put the below shell script snippet here and surround with `<!--shell -->`:
 echo "Hello $USER"
 -->
 ```
-When you run at this line, you should see the "hello $USER" message.
+When you run at this line, you should see the "Hello $USER" message.
 
 <!--shell
 echo "Hello $USER"
@@ -27,7 +27,7 @@ This will print a log message at info level.
 log::info "Hello $USER"
 -->
 
-Of course you can run any other shell command in the `<!-- -->` block. For example:
+Of course you can run any other shell command in the `<!--shell -->` block. For example:
 ```html
 <!--shell
 ls

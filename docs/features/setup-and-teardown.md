@@ -11,7 +11,7 @@ be executed after the lesson is finished either noramally or abnoramally. At tut
 executed before the whole tutorial is launched and the teardown hook will be executed after the whole tutorial is
 finished.
 
-## Define setup and teardown hook
+## Defining setup and teardown hooks
 
 To define setup and teardown hooks at tutorial or lesson level, you just need to create a `.sh` file with arbitrary
 name under the root directory of the tutorial. Then, define the hooks as shell functions using the following naming
