@@ -22,8 +22,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# This script allows you to organize tutorial in multiple Markdown files hierarchically
-# then run through it interactively in terminal. It is driven by demo-magic underneath.
+# This script allows you to organize your tutorial in multiple Markdown files hierarchically
+# then run through it interactively in a terminal. It is driven by demo-magic under the hood.
 
 ########################
 # Load demo magic
@@ -224,7 +224,7 @@ function tutorial::parse-file {
       continue
     elif [[ -n $line && ! $category =~ code* && ! $category =~ /*hidden ]]; then
       category='text'
-    elif [[ -z $line && ! $category =~ /*hidden ]]; then
+    elif [[ -z $line && ! $category =~ code* && ! $category =~ /*hidden ]]; then
       category='newline'
     fi
 
@@ -265,13 +265,14 @@ function tutorial::parse-file {
       ;;
     newline)
       # print new line
-      DEMO_CMD_COLOR=$TT_COLOR_RESET pi ""
+      pi ""
 
       # pause
       if [[ $print_excerpt != 'not_started' && $NO_WAIT == false ]]; then
-        echo -e -n "${TT_COLOR_POINTER}➜ ${TT_COLOR_RESET}Press Enter key to continue..."
+        echo -n "Press Enter key to continue..."
         read -rs
         echo
+        pi ""
       fi
 
       if [[ $print_excerpt == 'in_progress' ]]; then
