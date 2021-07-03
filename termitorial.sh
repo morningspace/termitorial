@@ -285,7 +285,7 @@ function tutorial::parse-file {
 
       # pause
       if [[ $print_excerpt != 'not_started' && $NO_WAIT == false ]]; then
-        echo -n "Press Enter key to continue..."
+        echo -n "➜ Press Enter key to continue..."
         read -rs
         echo
         pi ""
