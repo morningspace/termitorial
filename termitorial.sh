@@ -126,7 +126,11 @@ function log::error {
 function tutorial::launch {
   # load custom shell scripts
   local file
-  for file in `ls $TT_DIR/*.sh 2>/dev/null`; do . $file; done
+  for file in `ls $TT_DIR/*.sh 2>/dev/null`; do
+    if [[ ! $file =~ demo-magic.sh && ! $file =~ termitorial.sh ]]; then
+      . $file
+    fi
+  done
 
   local tutorial_setup="tutorial::setup"
   local ret=0
