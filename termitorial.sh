@@ -169,6 +169,7 @@ function tutorial::launch-lesson {
 
   # mark the current lesson as active
   local lesson=$1
+  lesson=${lesson%.md}
   local file=$(lesson-file $lesson)
   if cat $TT_PROGRESS_FILE | grep -q -e "^.\? $file"; then
     sed -e "s#^? $file#* $file#g" \
